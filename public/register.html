@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Registro</h1>
+    <input type="text" id="reg_username" placeholder="Username">
+    <input type="password" id="reg_password" placeholder="Password">
+    <button onclick="register()">Registrar</button>
+
+    <script>
+        function register() {
+            $.ajax({
+                url: '/register',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    username: $('#reg_username').val(),
+                    password: $('#reg_password').val()
+                }),
+                success: function(response) {
+                    alert('Registrado com sucesso!');
+                    window.location.href = '/login.html';
+                },
+                error: function() {
+                    alert('Erro ao registrar.');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

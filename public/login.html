@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Login</h1>
+    <input type="text" id="login_username" placeholder="Username">
+    <input type="password" id="login_password" placeholder="Password">
+    <button onclick="login()">Login</button>
+
+    <script>
+        function login() {
+            $.ajax({
+                url: '/login',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    username: $('#login_username').val(),
+                    password: $('#login_password').val()
+                }),
+                success: function(response) {
+                    sessionStorage.setItem('token', response.token);
+                    alert('Login efetuado com sucesso!');
+                    window.location.href = '/';
+                },
+                error: function() {
+                    alert('Erro ao logar.');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

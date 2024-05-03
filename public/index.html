@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Equação do Segundo Grau</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Calcular Equação do Segundo Grau</h1>
+    <input type="number" id="a" placeholder="a">
+    <input type="number" id="b" placeholder="b">
+    <input type="number" id="c" placeholder="c">
+    <button onclick="calculate()">Calcular</button>
+    <script>
+        function calculate() {
+            const a = parseFloat($('#a').val());
+            const b = parseFloat($('#b').val());
+            const c = parseFloat($('#c').val());
+    
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                alert("Por favor, insira valores numéricos válidos para a, b, e c.");
+                return;
+            }
+    
+            $.ajax({
+                url: '/calculate',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    token: sessionStorage.getItem('token'),
+                    a: a,
+                    b: b,
+                    c: c
+                }),
+                success: function(response) {
+                    if (response.x1 && response.x2) {
+                        alert(`Raízes: x1 = ${response.x1}, x2 = ${response.x2}`);
+                    } else {
+                        alert(response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert(`Erro ao calcular: ${xhr.responseText}`);
+                }
+            });
+        }
+    </script>
+    
+</body>
+</html>
